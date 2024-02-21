@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: blue
+  name: blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: blue
+    spec:
+      containers:
+      - command:
+        - "/bin/bash"
+        - "-x"
+        - "/entrypoint/blue.sh"
+        image: localhost/reproducer:TAG
+        imagePullPolicy: Never
+        name: reproducer
+        volumeMounts:
+        - name: entrypoint
+          mountPath: /entrypoint
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - NET_RAW
+            - SYS_ADMIN
+            - NET_BIND_SERVICE
+          privileged: true
+      volumes:
+      - name: entrypoint
+        configMap:
+          name: entrypoint
