@@ -15,15 +15,15 @@ load: check-env-tag check-env-server
 build-and-upload-and-load: build upload load
 
 .PHONY: deploy
-deploy: check-env-tag
+deploy: check-env-image
 	oc new-project reproducer || oc project reproducer
 	oc adm policy add-scc-to-user privileged -z default
 	oc adm policy add-role-to-user cluster-reader -z default
 	bash privileged.sh reproducer
 	oc apply -f sriovnetwork.yaml
 	oc create configmap --from-file=blue.sh=blue.sh --from-file=red.sh=red.sh entrypoint
-	cat blue.yaml | sed 's/TAG/$(TAG)/' | oc apply -f -
-	cat red.yaml | sed 's/TAG/$(TAG)/' | oc apply -f -
+	cat blue.yaml | sed 's/IMAGE/$(IMAGE)/' | oc apply -f -
+	cat red.yaml | sed 's/IMAGE/$(IMAGE)/' | oc apply -f -
 
 .PHONY: undeploy
 undeploy:
@@ -34,6 +34,12 @@ undeploy:
 check-env-tag:
 ifndef TAG
 	$(error TAG is undefined (e.g. test3))
+endif
+
+.PHONY: check-env-image
+check-env-image
+ifndef IMAGE
+	$(error IMAGE is undefined (e.g. quay.io/akaris/fedora:reproducer2))
 endif
 
 .PHONY: check-env-server

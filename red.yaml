@@ -21,8 +21,8 @@ spec:
         - "/bin/bash"
         - "-x"
         - "/entrypoint/red.sh"
-        image: localhost/reproducer:TAG
-        imagePullPolicy: Never
+        image: IMAGE
+        imagePullPolicy: IfNotPresent
         name: reproducer
         volumeMounts:
         - name: entrypoint
