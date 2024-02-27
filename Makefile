@@ -20,10 +20,9 @@ deploy: check-env-image
 	oc adm policy add-scc-to-user privileged -z default
 	oc adm policy add-role-to-user cluster-reader -z default
 	bash privileged.sh reproducer
-	oc apply -f sriovnetwork.yaml
 	oc create configmap --from-file=blue.sh=blue.sh --from-file=red.sh=red.sh entrypoint
-	cat blue.yaml | sed 's/IMAGE/$(IMAGE)/' | oc apply -f -
-	cat red.yaml | sed 's/IMAGE/$(IMAGE)/' | oc apply -f -
+	cat blue.yaml | sed 's#IMAGE#$(IMAGE)#' | oc apply -f -
+	cat red.yaml | sed 's#IMAGE#$(IMAGE)#' | oc apply -f -
 
 .PHONY: undeploy
 undeploy:
@@ -37,7 +36,7 @@ ifndef TAG
 endif
 
 .PHONY: check-env-image
-check-env-image
+check-env-image:
 ifndef IMAGE
 	$(error IMAGE is undefined (e.g. quay.io/akaris/fedora:reproducer2))
 endif
