@@ -6,7 +6,7 @@ make build-and-upload-and-load TAG=test4 SERVER=192.168.18.18
 
 # Deploying the environment
 
-First, install the SRIOV operator and configuration. See the other directory. Then:
+In order to deploy:
 ```
 make deploy TAG=test4
 ```
