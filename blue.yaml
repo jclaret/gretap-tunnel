@@ -21,7 +21,7 @@ spec:
         - "/bin/bash"
         - "-x"
         - "/entrypoint/blue.sh"
-        image: IMAGE
+        image: quay.io/jclaret/reproducer
         imagePullPolicy: IfNotPresent
         name: reproducer
         volumeMounts:

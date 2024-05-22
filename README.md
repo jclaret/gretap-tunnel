@@ -8,7 +8,7 @@ make build-and-upload-and-load TAG=test4 SERVER=192.168.18.18
 
 In order to deploy:
 ```
-make deploy IMAGE=localhost/reproducer:test4
+make deploy make deploy IMAGE=quay.io/jclaret/reproducer
 ```
 
 You can tear down the environment with:
